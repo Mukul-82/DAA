@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-int main(int argc, const char** argv)
+int main()
 {
     int t;
     cin>>t;
@@ -13,35 +13,66 @@ int main(int argc, const char** argv)
         {
             cin>>v[i];
         }
+        int k;
+        cin>>k;
         int low=0;
-        int high=n-1;
-        int c=0;
-        int key;
-        cin>>key;
-        bool x=true;
-        while(low<=high)
+        int high=0;
+        int count=0;
+        bool y=true;
+        while(pow(2,high) <=n )
         {
-            c++;
-            int mid=low+(high-low)/2;
-            if(v[mid]==key)
+            
+            if(v[pow(2,high)] == k or v[pow(2,low)] == k)
             {
-                x=false;
-                cout<<"Present "<<c<<endl;
+                count++;
+                y=false;
+                cout<<"Present "<<count<<endl;
                 break;
             }
-            else if(v[mid]<key)
+            else if(v[pow(2,high)] < k)
             {
-                low=mid+1;
+                count++;
+                low=high;
+                high++;
             }
             else
             {
-                high=mid-1;
+                bool x=true;
+                for(int i=pow(2,low)+1;i<pow(2,high);i++)
+                {
+                    count++;
+                    if(v[i]==k)
+                    {
+                        y=false;
+                        x=false;
+                        cout<<"Present "<<count<<endl;
+                        break;
+                    }
+                }
+                if(x)
+                {
+                    y=false;
+                    cout<<"Not Present "<<count<<endl;
+                }
+                break;
             }
-            
         }
-        if(x)
+        if(y)
         {
-            cout<<"Not Present "<<c<<endl;
+            for(int i=pow(2,low);i<n;i++)
+            {
+                count++;
+                 if(v[i]==k)
+                {
+                    y=false;
+                    cout<<"Present "<<count<<endl;
+                    break;
+                }
+            }
+            if(y)
+            {
+                cout<<"Not Present "<<count<<endl;
+            }
         }
     }
     return 0;
