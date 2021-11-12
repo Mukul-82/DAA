@@ -1,32 +1,51 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define INF 1e9
+
 int main()
 {
 	int n;
+	cout<<"for values INF enter -1"<<endl;
 	cin>>n;
+	int a;
 
-	vector<int> a(n);
-	for(int i=0;i<n;i++){
-		cin>>a[i];
-	}
-
-	priority_queue<int, vector<int>, greater<int>> minheap;
+	int arr[n][n], dist[n][n];
 
 	for(int i=0;i<n;i++){
-		minheap.push(a[i]);
+		for(int j=0;j<n;j++){
+			cin>>a;
+			if(a<0){
+				arr[i][j] = INF;
+			}
+			else
+				arr[i][j] = a;
+			dist[i][j] = arr[i][j];
+		}
 	}
 
-	int ans = 0;
-
-	while(minheap.size()>1){
-		int e1 = minheap.top();
-		minheap.pop();
-		int e2 = minheap.top();
-		minheap.pop();
-		ans += e1+e2;
-		minheap.push(e1 + e2);
+	for(int k=0;k<n;k++){
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				if(dist[i][k]+dist[k][j] < dist[i][j]){
+					dist[i][j] = dist[i][k]+dist[k][j];
+				}
+			}
+		}
 	}
-	cout<<ans;
+
+	cout<<"Shortest Distance Matrix: "<<endl;
+
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(dist[i][j]==INF){
+				cout<<"INF ";
+			}
+			else
+				cout<<dist[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+
 	return 0;
 }
